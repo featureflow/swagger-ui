@@ -1,7 +1,10 @@
-featureflow-app-static:
-  labels:
-    io.rancher.scheduler.global: 'true'
-    io.rancher.container.pull_image: always
-  tty: true
-  image: featureflow/swagger-ui
-  stdin_open: true
+version: '2'
+services:
+  swagger-ui:
+    image: featureflow/swagger-ui
+    environment:
+      API_URL: https://app.featureflow.io/v2/api-docs
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
