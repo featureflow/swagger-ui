@@ -42,12 +42,13 @@
 
     <script type="text/javascript">
         $(function () {
-            var url = window.location.search.match(/url=([^&]+)/);
-            if (url && url.length > 1) {
-                url = decodeURIComponent(url[1]);
-            } else {
-                url = window.location.toString().replace(/\/*#?.*/, '/swagger.json');
-            }
+            var url = "https://app.featureflow.io/v2/api-docs";
+            //var url = window.location.search.match(/url=([^&]+)/);
+            //if (url && url.length > 1) {
+            //    url = decodeURIComponent(url[1]);
+            //} else {
+            //    url = window.location.toString().replace(/\/*#?.*/, '/swagger.json');
+            //}
 
             window.swaggerUi = new SwaggerUi({
                 url: url,
