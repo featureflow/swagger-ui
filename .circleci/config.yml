@@ -1,0 +1,25 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+    build:
+        docker:
+            - image: circleci/node:7.10
+
+        working_directory: ~/repo
+
+        steps:
+            - checkout
+            - setup_remote_docker:
+                  docker_layer_caching: true
+
+            - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+            - run: docker push featureflow/swagger-ui
+            - run: wget https://github.com/rancher/rancher-compose/releases/download/v0.12.1/rancher-compose-linux-amd64-v0.12.1.tar.gz -O - | tar -zx
+            - run: mv rancher-compose-v0.12.1/rancher-compose .
+            - run: rm -rf rancher-compose-v0.12.1
+            - run: ./rancher-compose --project-name swagger-ui --url http://rancher.featureflow.io:8080 up swagger-ui --upgrade --pull -d
+            - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+            - run: ./build-tag-docker-push-rancher-deploy.sh
